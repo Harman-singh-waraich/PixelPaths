@@ -1,0 +1,19 @@
+.navbar {
+    background: url("../images/navMap.png");
+    margin: 0px;
+    padding: 0px;
+    width: 1504px;
+    height: 96px;
+  }
+
+ .navbar button{
+    font-family: 'pixel';
+    font-size: 24px;
+    margin: 23px 11px;
+    color:#8F501D;
+    background: transparent;
+    padding: 10px;
+    border-radius: 6px;
+    border:0em;
+    float:right;
+  }

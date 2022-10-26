@@ -1,57 +1,95 @@
-import React from 'react';
-import logo from './logo.svg';
-import { Counter } from './features/counter/Counter';
-import './App.css';
+import React, { useRef, useEffect, useState } from "react";
+import "./App.css";
+import TileMap from "./data/TileMap.js";
+import boundary from "./data/boundary";
+import obstacles from "./data/gridLayout.js";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
+import dragElement from "./components/source.js";
+import sourceImg from "./images/source.png";
+import targetImg from "./images/target.png";
+// let obstacles = gridLayout;
+
 
 function App() {
+  const [isMouseDown, setMOuse] = useState(false);
+  const [canvas, setCanvas] = useState(null);
+  const [ctx, setCtx] = useState(null);
+  const [source, setSource] = useState({ x: 18, y: 13 });
+  const [target, setTarget] = useState({ x: 18, y: 64 });
+
+  const tileSize = 16;
+  const tileMap = new TileMap(tileSize);
+
+  function pick(event, canvas,ctx) {
+    const bounding = canvas.getBoundingClientRect();
+    const y = Math.floor((event.clientX - bounding.left) / 16);
+    const x = Math.floor((event.clientY - bounding.top) / 16);
+    obstacles[x][y] = 1;
+    tileMap.drawObstacles(obstacles,boundary,ctx)
+  }
+  //mouse hover events
+  const mouseDown = (e) => {
+    setMOuse(true);
+    pick(e, canvas,ctx);
+  };
+  const mouseUp = (e) => {
+    setMOuse(false);
+  };
+  const mouseHover = (e) => {
+    if (!isMouseDown) {
+      return;
+    }
+    pick(e, canvas,ctx);
+  };
+
+  //load canvas and render image
+  useEffect(() => {
+    dragElement(document.getElementById("source"),source,setSource,target,setTarget);
+    dragElement(document.getElementById("target"),source,setSource,target,setTarget);
+    const canvas = document.getElementById("main");
+    const ctx = canvas.getContext("2d");
+    setCanvas(canvas);
+    setCtx(ctx);
+    setInterval(() => {
+      tileMap.draw(canvas, ctx, obstacles, boundary);
+    }, 1000 / 60);
+
+  });
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <Counter />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <span>
-          <span>Learn </span>
-          <a
-            className="App-link"
-            href="https://reactjs.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux-toolkit.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux Toolkit
-          </a>
-          ,<span> and </span>
-          <a
-            className="App-link"
-            href="https://react-redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React Redux
-          </a>
-        </span>
-      </header>
-    </div>
+    <>
+      <Header
+        canvas={canvas}
+        ctx={ctx}
+        tileMap={tileMap}
+        obstacles={obstacles}
+        boundary={boundary}
+        source = {source}
+        target = {target}
+      />
+      <div className="container">
+        <canvas
+          id="main"
+          onMouseDown={mouseDown}
+          onMouseUp={mouseUp}
+          onMouseMove={mouseHover}
+          onMouseLeave={mouseUp}
+        ></canvas>
+      
+          <img id="source" src={sourceImg} />
+          <img id="target" src={targetImg} />
+      
+      </div>
+
+      <Footer
+        canvas={canvas}
+        ctx={ctx}
+        tileMap={tileMap}
+        obstacles={obstacles}
+        boundary={boundary}
+      />
+    </>
   );
 }
 
