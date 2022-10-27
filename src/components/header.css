@@ -4,16 +4,240 @@
     padding: 0px;
     width: 1504px;
     height: 96px;
+    display: flex;
   }
 
  .navbar button{
     font-family: 'pixel';
     font-size: 24px;
-    margin: 23px 11px;
+    margin: 23px 24px;
     color:#8F501D;
+    width: 160px;
     background: transparent;
-    padding: 10px;
+    padding: 10px 0px;
     border-radius: 6px;
     border:0em;
-    float:right;
+    /* float:right; */
   }
+  .buttons{
+    margin-left: 120px
+  }
+  /* Style The Dropdown Button */
+.dropbtn {
+  background-color: #4CAF50;
+  color: white;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  float: right;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+  float :right;
+  display: inline-block;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  margin-top: 64px;
+  background-color: #E8CFA6;
+  min-width: 160px;
+  border-radius: 16px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+  font-family: pixel;
+  color: #8F501D;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {
+  background-color: #f1f1f1;
+  border-radius: 16px ;
+
+}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+
+.bouncing-text {
+  position: relative;
+  display: flex;
+  margin: 12px 40px;
+
+  font-size: 56px;
+  font-weight: 900;
+  padding: 10px;
+  font-family: 'pixel'; 
+}
+
+.P, .i, .x, .e, .l, .a,.p, .t, .h, .s {
+  position: relative;
+  margin : 0px 1px;
+  color: #5F4749;
+  text-shadow: 0 3px #000000, 0 5px #57551a, 0 7px #a4af5e;
+}
+
+.P {
+  animation: bounce 2s ease infinite;
+  -webkit-animation: bounce 2s ease infinite;
+}
+
+.i {
+  animation: bounce 2s ease infinite .1s;
+  -webkit-animation: bounce 2s ease infinite .1s;
+}
+
+.x {
+  animation: bounce 2s ease infinite .2s;
+  -webkit-animation: bounce 2s ease infinite .2s;
+}
+
+.e {
+  animation: bounce 2s ease infinite .3s;
+  -webkit-animation: bounce 2s ease infinite .3s;
+}
+
+.l {
+  animation: bounce 2s ease infinite .4s;
+  -webkit-animation: bounce 2s ease infinite .4s;
+}
+.p {
+  animation: bounce 2s ease infinite .5s;
+  -webkit-animation: bounce 2s ease infinite .5s;
+}
+
+.a {
+  animation: bounce 2s ease infinite .6s;
+ -webkit-animation: bounce 2s ease infinite .6s;
+}
+
+.t {
+  animation: bounce 2s ease infinite .7s;
+ -webkit-animation: bounce 2s ease infinite .7s;
+}
+
+.h {
+  animation: bounce 2s ease infinite .8s;
+ -webkit-animation: bounce 2s ease infinite .8s;
+}
+
+.s {
+  animation: bounce 2s ease infinite .9s;
+ -webkit-animation: bounce 2s ease infinite .9s;
+}
+
+ @keyframes bounce {
+        0%   { transform: scale(1,1) translateY(0); }
+        10%  { transform: scale(1.1,.9) translateY(0); }
+        30%  { transform: scale(.9,1.1)   translateY(-10px);}
+        50%  { transform: scale(1.05,.95) translateY(0); }
+        58%  { transform: scale(1,1) translateY(-7px); }
+        65%  { transform: scale(1,1) translateY(0);}
+        100% { transform: scale(1,1) translateY(0);}
+    }
+
+@-webkit-keyframes bounce {
+       0%   { transform: scale(1,1) translateY(0); }
+        10%  { transform: scale(1.1,.9) translateY(0); }
+        30%  { transform: scale(.9,1.1)   translateY(-10px);}
+        50%  { transform: scale(1.05,.95) translateY(0); }
+        58%  { transform: scale(1,1) translateY(-7px);}
+        65%  { transform: scale(1,1) translateY(0);}
+        100% { transform: scale(1,1) translateY(0);} 
+}
+
+
+.bouncing-text:before, .bouncing-text:after {
+  content:"";
+  position: absolute;
+  background-color: rgba(0,0,0,0.4);
+  width: 50px;
+  height:5px;
+  border-radius:50%;
+  top:82px;
+  z-index:-1;
+}
+
+.shadow, .shadow-two {
+  position: absolute;
+  top:82px;
+  z-index:-1;
+}
+
+.shadow:before, .shadow:after, .shadow-two:before, .shadow-two:after {
+  content:"";
+  position: absolute;
+  background-color: rgba(0,0,0,0.4);
+  width: 50px;
+  height:5px;
+  border-radius:50%;
+  top:0;  
+}
+
+.bouncing-text:before {
+  left:0;
+  animation: scale 1s linear infinite;
+  -webkit-animation: scale 1s linear infinite;
+}
+
+@keyframes scale {
+  0% {transform: scaleX(1);}
+  25% {transform: scaleX(0.4);}
+  50% {transform: scaleX(1);}
+  75% {transform: scaleX(0.9);}
+  100% {transform: scaleX(1);}
+}
+
+@-webkit-keyframes scale {
+   0% {transform: scaleX(1);}
+  25% {transform: scaleX(0.4);}
+  50% {transform: scaleX(1);}
+  75% {transform: scaleX(0.9);}
+  100% {transform: scaleX(1);}
+}
+
+.bouncing-text:after {
+  left: 57px;
+  animation: scale 1s linear infinite .1s;
+  -webkit-animation: scale 1s linear infinite .1s;
+}
+
+.shadow:before {
+  left: 116px;
+  animation: scale 1s linear infinite .2s;
+  -webkit-animation: scale 1s linear infinite .2s;
+}
+
+.shadow:after {
+  left:175px;
+  animation: scale 1s linear infinite .3s;
+  -webkit-animation: scale 1s linear infinite .3s;
+}
+
+.shadow-two:before {
+  left:232px;
+  animation: scale 1s linear infinite .4s;
+  -webkit-animation: scale 1s linear infinite .4s;
+}
+
+.shadow-two:after {
+  left: 285px;
+  animation: scale 1s linear infinite .5s;
+  -webkit-animation: scale 1s linear infinite .5s;
+}
+
+

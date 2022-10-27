@@ -16,7 +16,7 @@ function clearPath() {
 }
 // Make the DIV element draggable:
 
-function dragElement(elmnt, source, setSource, target, setTarget) {
+function dragElement(elmnt, source, setSource, target, setTarget,algorithm) {
   var pos1 = 0,
     pos2 = 0,
     pos3 = 0,
@@ -57,12 +57,12 @@ function dragElement(elmnt, source, setSource, target, setTarget) {
       let sourceNode = new Node(x, y);
       let targetNode = new Node(target.x, target.y);
       clearPath();
-      bfs(obstacles, boundary, sourceNode, targetNode, 0);
+      Visualise(sourceNode,targetNode)
     } else if (elmnt.id === "target") {
       let targetNode = new Node(x, y);
       let sourceNode = new Node(source.x, source.y);
       clearPath();
-      bfs(obstacles, boundary, sourceNode, targetNode, 0);
+      Visualise(sourceNode,targetNode)
     }
 
     // console.log(x,y);
@@ -101,6 +101,18 @@ function dragElement(elmnt, source, setSource, target, setTarget) {
 
     document.onmouseup = null;
     document.onmousemove = null;
+  }
+  function Visualise(sourceNode,targetNode){
+    switch(algorithm){
+      case "Bfs":
+        bfs(obstacles, boundary, sourceNode, targetNode, 0);
+        break;
+      case "Dfs":
+        dfs(obstacles, boundary, sourceNode, targetNode, 0);
+        break;
+      default:
+        break;
+    }
   }
 }
 

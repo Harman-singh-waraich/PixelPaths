@@ -1,52 +1,53 @@
 let {field,path} = require("../data/pathGrid.js");
 const Node = require("./Node.js")
 
-
 /**
  * @desc Does a dsfs traversal and finds the path between source node and target node.
  */
-function dfs(obstacles, boundary, start, target, speed) {
+async function dfs(obstacles, boundary, start, target, speed) {
   if (start.x === target.x && start.y === target.y) {
     return false;
   }
 
   let visited = new Map();
-  let foundFlag = false;
+  let stack = [];
   let parent = new Map();
   let dfsTraversal = [];
   let startNode = new Node(start.x, start.y);
-
+  
+  stack.push(startNode)
   parent.set(startNode, -1);
-  traverse(obstacles,boundary,visited,parent,dfsTraversal,startNode,target,speed)
 
+  while(stack.length !== 0){
+    let s = stack.pop();
+    if(s.x == target.x && s.y == target.y){
+      target = s;
+      setPath(parent,target,speed)
+      break
+    }
+    if(!visited.get(`${s.x},${s.y}`)){
+      if(speed !== 0){
+        await new Promise( r => setTimeout( r,0));            
+      }
+      visited.set(`${s.x},${s.y}`,true)
+      field[s.x][s.y] = 1;
+      dfsTraversal.push(s)
+    }
+
+    let neighbours = getNeighbours(obstacles,boundary,s)
+    for(let i = 0;i<neighbours.length;i++){
+      if(!visited.get(`${neighbours[i].x},${neighbours[i].y}`)){
+        parent.set(neighbours[i],s)
+        stack.push(neighbours[i])
+      }
+    }
+    
+  }
   console.log(dfsTraversal);
+  
 
 }
-async function traverse(obstacles, boundary,visited,parent,dfsTraversal, start, target, speed){
-    if(visited.get(`${target.x},${target.y}`)){
-        
-        return setPath(parent,start,speed);;
-    }
-    visited.set(`${start.x},${start.y}`, true);
-    dfsTraversal.push(start);
-    let neighbours = getNeighbours(obstacles,boundary,start);
-    for(let i = 0;i<neighbours.length ;i++){
-        if(!visited.get(`${neighbours[i].x},${neighbours[i].y}`)){
-            parent.set(neighbours[i],start);  
-                    //target found -> stop function
-            field[neighbours[i].x][neighbours[i].y] = 1;
-            if(speed !== 0){
-              await new Promise( r => setTimeout( r,0));            
-            }
-            if (neighbours[i].x == target.x && neighbours[i].y == target.y) {
-                target = neighbours[i];
-            }  
 
-            await traverse(obstacles,boundary,visited,parent,dfsTraversal,neighbours[i],target,speed)
-
-            }
-    }
-}
 /**
  * 
  * @desc finds the path if target node is found
@@ -55,9 +56,11 @@ async function traverse(obstacles, boundary,visited,parent,dfsTraversal, start, 
  * @param {*varible to toggle the render speed of path} speed 
  * 
  */
-function setPath(parent,target,speed){
+async function setPath(parent,target,speed){
   //find path if target node found
-  if (!parent.get(target)) {return}
+  if (!parent.get(target)) {
+    return
+  }
   
   let tempPath = [];
   tempPath.push(target);
@@ -71,24 +74,34 @@ function setPath(parent,target,speed){
 
   tempPath.reverse();
   console.log(tempPath);
-  if(speed == 0){  //instantly render path
     for(let i=1 ;i < tempPath.length ; i++){
-      field[tempPath[i].x][tempPath[i].y] = 0;
-      path.push(tempPath[i])
-    }
-  }
-  else{ // slowly render path
-      let interval = setInterval(() => {
-      let node = tempPath.shift()
-      if(node == -1){return;}
-      field[node.x][node.y] = 0;
-      path.push(node);
+    if(speed !== 0){
+      await new Promise( r => setTimeout( r,0));            
+    } 
+    field[tempPath[i].x][tempPath[i].y] = 0;
+    path.push(tempPath[i])
+  }  
+  // if(speed == 0){  //instantly render path
+  //   for(let i=1 ;i < tempPath.length ; i++){
+          // if(speed !== 0){
+            // await new Promise( r => setTimeout( r,0));            
+          // } 
+  //     field[tempPath[i].x][tempPath[i].y] = 0;
+  //     path.push(tempPath[i])
+  //   }
+  // }
+  // else{ // slowly render path
+  //     let interval = setInterval(() => {
+  //     let node = tempPath.shift()
+  //     if(node == -1){return;}
+  //     field[node.x][node.y] = 0;
+  //     path.push(node);
 
-      if(tempPath.length === 0){
-        clearInterval(interval);
-      }
-    }, 100);
-  }
+  //     if(tempPath.length === 0){
+  //       clearInterval(interval);
+  //     }
+  //   }, 100);
+  // }
 
   
 }
@@ -110,6 +123,11 @@ function getNeighbours(obstacles, boundary, node) {
     let neighbour = new Node(x - 1, y);
     neighbours.push(neighbour);
   }
+  //right
+  if ( y + 1 < obstacles[0].length && obstacles[x][y + 1] === 0 && boundary[x][y + 1] === 0 ) {
+    let neighbour = new Node(x, y + 1);
+    neighbours.push(neighbour);
+  }
   //down
   if ( x + 1 < obstacles.length && obstacles[x + 1][y] === 0 && boundary[x + 1][y] === 0) {
     let neighbour = new Node(x + 1, y);
@@ -120,11 +138,7 @@ function getNeighbours(obstacles, boundary, node) {
     let neighbour = new Node(x, y - 1);
     neighbours.push(neighbour);
   }
-  //right
-  if ( y + 1 < obstacles[0].length && obstacles[x][y + 1] === 0 && boundary[x][y + 1] === 0 ) {
-    let neighbour = new Node(x, y + 1);
-    neighbours.push(neighbour);
-  }
+  neighbours.reverse()
   return neighbours;
 }
 
@@ -132,7 +146,7 @@ function getNeighbours(obstacles, boundary, node) {
 //             [0,0,0],
 //             [0,0,0]]
 // let obstacle = [[0,0,0],
-//             [0,1,0],
+//             [1,0,0],
 //             [0,0,0]]
 // let start = new Node(0,0)
 // let target = new Node(2,2)

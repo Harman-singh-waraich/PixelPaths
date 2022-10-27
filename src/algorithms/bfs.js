@@ -7,7 +7,7 @@ let {field,path} = require("../data/pathGrid.js");
  * @desc Does a bfs traversal and finds the shortest path
  * @returns 
  */
-function bfs(obstacles, boundary, start, target, speed) {
+async function bfs(obstacles, boundary, start, target, speed) {
   if (start.x === target.x && start.y === target.y) {
     return false;
   }
@@ -23,8 +23,6 @@ function bfs(obstacles, boundary, start, target, speed) {
   q.push(startNode);
   visited.set(`${startNode.x},${startNode.y}`, true);
 
-  if (speed == 0) {
-    //perfrom instant traversal
     while (!q.isEmpty()) {
       let frontNode = q.pop();
       bfsTraversal.push(frontNode);
@@ -36,6 +34,10 @@ function bfs(obstacles, boundary, start, target, speed) {
           visited.set(`${neighbours[i].x},${neighbours[i].y}`, true);
           parent.set(neighbours[i], frontNode);
           field[neighbours[i].x][neighbours[i].y] = 1;
+          //for delay
+          if(speed !== 0){
+            await new Promise( r => setTimeout( r,0));            
+          }
           //target found -> stop function
           if (neighbours[i].x == target.x && neighbours[i].y == target.y) {
             target = neighbours[i];
@@ -51,35 +53,7 @@ function bfs(obstacles, boundary, start, target, speed) {
         break;
       }
     }
-  } else {
-    //set interval to control trace speed
-    let interval = setInterval(() => {
-      let frontNode = q.pop();
-      bfsTraversal.push(frontNode);
-
-      let neighbours = getNeighbours(obstacles, boundary, frontNode);
-      for (let i = 0; i < neighbours.length; i++) {
-        
-        if (visited.get(`${neighbours[i].x},${neighbours[i].y}`) == null) {
-          q.push(neighbours[i]);
-          visited.set(`${neighbours[i].x},${neighbours[i].y}`, true);
-          parent.set(neighbours[i], frontNode);
-          field[neighbours[i].x][neighbours[i].y] = 1;
-          //target found -> stop function
-          if (neighbours[i].x == target.x && neighbours[i].y == target.y) {
-            target = neighbours[i];
-            foundFlag = true;
-            break;
-          }
-        }
-      }
-      //stop interval if queue empty or target found
-      if (q.isEmpty() || foundFlag) {
-        setPath(parent,target,speed)
-        clearInterval(interval);
-      }
-    }, 0);
-  }
+ 
 
 
 }

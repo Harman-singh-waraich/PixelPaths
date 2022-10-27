@@ -1,5 +1,6 @@
 import React, { useRef, useEffect, useState } from "react";
 import "./App.css";
+
 import TileMap from "./data/TileMap.js";
 import boundary from "./data/boundary";
 import obstacles from "./data/gridLayout.js";
@@ -15,6 +16,7 @@ function App() {
   const [isMouseDown, setMOuse] = useState(false);
   const [canvas, setCanvas] = useState(null);
   const [ctx, setCtx] = useState(null);
+  const [algorithm, setAlgorithm] = useState(null);
   const [source, setSource] = useState({ x: 18, y: 13 });
   const [target, setTarget] = useState({ x: 18, y: 64 });
 
@@ -45,8 +47,8 @@ function App() {
 
   //load canvas and render image
   useEffect(() => {
-    dragElement(document.getElementById("source"),source,setSource,target,setTarget);
-    dragElement(document.getElementById("target"),source,setSource,target,setTarget);
+    dragElement(document.getElementById("source"),source,setSource,target,setTarget,algorithm);
+    dragElement(document.getElementById("target"),source,setSource,target,setTarget,algorithm);
     const canvas = document.getElementById("main");
     const ctx = canvas.getContext("2d");
     setCanvas(canvas);
@@ -67,6 +69,8 @@ function App() {
         boundary={boundary}
         source = {source}
         target = {target}
+        algorithm = {algorithm}
+        setAlgorithm = {setAlgorithm}
       />
       <div className="container">
         <canvas
