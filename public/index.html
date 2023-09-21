@@ -41,23 +41,27 @@
     -->
     
     <script type="module">
-      // Import the functions you need from the SDKs you need
-      import { initializeApp } from "https://www.gstatic.com/firebasejs/9.10.0/firebase-app.js";
-      // TODO: Add SDKs for Firebase products that you want to use
-      // https://firebase.google.com/docs/web/setup#available-libraries
-    
-      // Your web app's Firebase configuration
-      const firebaseConfig = {
-        apiKey: "AIzaSyA6EpbWJZzjTFRUnB0goV3fjVXTzYCtaTA",
-        authDomain: "pixel-paths.firebaseapp.com",
-        projectId: "pixel-paths",
-        storageBucket: "pixel-paths.appspot.com",
-        messagingSenderId: "90664647706",
-        appId: "1:90664647706:web:09a9e5097808c8279c25a3"
-      };
-    
-      // Initialize Firebase
-      const app = initializeApp(firebaseConfig);
+     // Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyA6EpbWJZzjTFRUnB0goV3fjVXTzYCtaTA",
+  authDomain: "pixel-paths.firebaseapp.com",
+  projectId: "pixel-paths",
+  storageBucket: "pixel-paths.appspot.com",
+  messagingSenderId: "90664647706",
+  appId: "1:90664647706:web:09a9e5097808c8279c25a3",
+  measurementId: "G-3PPM49KQSP"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
     </script>
   </body>
 </html>
