@@ -1,19 +1,18 @@
 import React from "react";
 import "./header.css";
-import Node from "../algorithms/Node";
-import { dfs } from "../algorithms/dfs";
-import { bfs } from "../algorithms/bfs";
+import dfs  from "../algorithms/dfs";
+import bfs from "../algorithms/bfs";
 import { field, path } from "../data/pathGrid";
-
+import Node from "../algorithms/Node";
 function Header(props) {
   const { canvas, ctx, obstacles, boundary, tileMap, source, target ,algorithm,setAlgorithm} = props;
   //clear obstacle matrix
   let algorithms = ["Bfs","Dfs"];
-  const clearCanvas = () => {
+  const clearCanvas = (obstacle =false ) => {
     console.log("ran");
     for (let i = 0; i < obstacles.length; i++) {
       for (let j = 0; j < obstacles[0].length; j++) {
-        obstacles[i][j] = 0;
+        if(obstacle){obstacles[i][j] = 0;}
         field[i][j] = 0;
       }
     }
@@ -61,10 +60,10 @@ function Header(props) {
         <div className="shadow-two"></div>
       </div>
       <div className="buttons">
-      <button onClick={clearCanvas}>Clear Field</button>
+      <button onClick={()=>{clearCanvas(true)}}>Clear Field</button>
       <button onClick={findPath}>{algorithm ? "Visualise" : "Set Alogrithm"}</button>
       <div className="dropdown">
-        <button className="dropbtn">Algorithms</button>
+        <button className="dropbtn">{algorithm?algorithm:"Algorithms"}</button>
         <div className="dropdown-content">
           {algorithms.map((algorithm)=>{
             return <a onClick={()=>{console.log("setting");setAlgo(algorithm)}}>{algorithm}</a>

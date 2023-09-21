@@ -1,6 +1,5 @@
+import Node from "./Node"
 let {field,path} = require("../data/pathGrid.js");
-const Node = require("./Node.js")
-
 /**
  * @desc Does a dsfs traversal and finds the path between source node and target node.
  */
@@ -152,4 +151,4 @@ function getNeighbours(obstacles, boundary, node) {
 // let target = new Node(2,2)
 
 // dfs(test,obstacle,start,target,0)
-module.exports = { dfs };
+export default dfs;

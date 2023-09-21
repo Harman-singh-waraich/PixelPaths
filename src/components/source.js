@@ -1,9 +1,10 @@
 import boundary from "../data/boundary.js";
 import obstacles from "../data/gridLayout.js";
 import { field, path } from "../data/pathGrid.js";
-import { bfs } from "../algorithms/bfs.js";
-import { dfs } from "../algorithms/dfs.js";
+import  bfs  from "../algorithms/bfs.js";
+import  dfs  from "../algorithms/dfs.js";
 import Node from "../algorithms/Node.js";
+
 function clearPath() {
   for (let i = 0; i < field.length; i++) {
     for (let j = 0; j < field[0].length; j++) {

@@ -60,7 +60,12 @@ function App() {
   });
 
   return (
-    <>
+    <div style={{
+      width:"100vw",
+      height:"100vh",
+      overflow:"auto",
+      position:"relative"
+    }}>
       <Header
         canvas={canvas}
         ctx={ctx}
@@ -93,7 +98,7 @@ function App() {
         obstacles={obstacles}
         boundary={boundary}
       />
-    </>
+    </div>
   );
 }
 

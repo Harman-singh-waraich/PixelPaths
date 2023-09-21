@@ -1,5 +1,5 @@
-const Queue = require("./Queue.js");
-const Node = require("./Node.js")
+import Node from "./Node"
+import Queue from "./Queue"
 let {field,path} = require("../data/pathGrid.js");
 
 
@@ -138,4 +138,4 @@ function getNeighbours(obstacles, boundary, node) {
   return neighbours;
 }
 
-module.exports = { bfs};
+export default bfs;
